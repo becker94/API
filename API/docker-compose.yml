@@ -1,0 +1,32 @@
+version: '2.23.3'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: DockerFile
+    ports:
+      - "8081:8080"
+    depends_on:
+      - db
+    environment:
+      - PORT=8080
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASSWORD=12345
+      - DB_NAME=API
+
+  db:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=12345
+      - MYSQL_DATABASE=API
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=12345
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
